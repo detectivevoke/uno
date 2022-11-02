@@ -11,5 +11,5 @@ Currently uploaded:
   - Add a panel/console (possibly)
   - Make it so the colours are printed as the colours, not just letters (same for wild cards)
   - Split the main.py into files that are easier to read.
- 
+  - Split the use_card function, into many functions.
  
