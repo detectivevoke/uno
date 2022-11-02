@@ -1,6 +1,6 @@
 # uno
 
-I remade UNO in python, not finished.
+I remade UNO (the game) in python, not finished.
 
 Currently uploaded:
   - UNO base
