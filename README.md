@@ -14,6 +14,7 @@ Currently uploaded:
   - Add option log for the game (all print functions, that aren't important).
   - Make the bots optional, can use all players.
   - Update title (last card used).
+  - Website possibly? (would be basic, I cant  make JS and animations)
  
  
 Update 1:
