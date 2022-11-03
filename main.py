@@ -50,6 +50,13 @@ class UNO:
         for card in self.game["special_cards"]:
             self.deck.append(card)
         
+        self.title()
+        for player in range(self.player_amount):
+            for i in range(self.card_amount):
+                card_to_be_given = random.choice(self.deck)
+                self.game[str(player)]["cards"].append(str(card_to_be_given))
+                self.deck.remove(card_to_be_given)
+        
 
     def title(self):
         self.colour_full = self.game["colours_full"][self.colour_current]
@@ -89,13 +96,6 @@ class UNO:
                 pass
             return True   
 
-    def give_cards(self):
-        self.title()
-        for player in range(self.player_amount):
-            for i in range(self.card_amount):
-                card_to_be_given = random.choice(self.deck)
-                self.game[str(player)]["cards"].append(str(card_to_be_given))
-                self.deck.remove(card_to_be_given)
 
     def give_certain_person_cards(self, player,amount):
         try:
@@ -299,7 +299,6 @@ class UNO:
         self.my_player = random.randint(0,self.player_amount-1)
         print("You are player {}!".format(self.my_player))
         print("\n")
-        self.give_cards()
         while True:
             time.sleep(0.4)
             if len(self.game[str(self.current_player)]["cards"]) == 1:
@@ -339,7 +338,6 @@ class UNO:
         self.my_player = random.randint(0,self.player_amount-1)
         print("You are player {}!".format(self.my_player))
         print("\n")
-        self.give_cards()
         while True:
             time.sleep(0.4)
             if len(self.game[str(self.current_player)]["cards"]) == 0:
