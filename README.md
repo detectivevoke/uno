@@ -15,6 +15,7 @@ Currently uploaded:
   - Make the bots optional, can use all players.
   - Update title (last card used).
  
+ 
 Update 1:
   - Bots are now smarter, making the game harder
   - Printing of your deck is now using a function to get the colour, not in the run() function itself.
