@@ -87,8 +87,7 @@ class UNO:
                 pass
             else:
                 pass
-            return True
-            
+            return True   
 
     def give_cards(self):
         self.title()
@@ -97,7 +96,6 @@ class UNO:
                 card_to_be_given = random.choice(self.deck)
                 self.game[str(player)]["cards"].append(str(card_to_be_given))
                 self.deck.remove(card_to_be_given)
-
 
     def give_certain_person_cards(self, player,amount):
         try:
@@ -118,139 +116,22 @@ class UNO:
         except:
             return False
 
-
-
-
     def use_card(self,player, card, bot=True):
         deck = self.game[str(player)]["cards"]
         if card in deck:
             
             if "wild_card" in card:
-                if bot:
-                    new_colour = random.choice(self.game["colour_codes"])
-                else:
-                    new_colour = input("What colour would you like to change the game to (R,G,B,Y): ")
-                self.colour_current = new_colour
-                print("Colour has been changed to {}".format(new_colour))
-                self.game[str(player)]["cards"].remove(card)
-                self.game[str(player)]["past_cards"].append(card)
-
-                self.count_update(player)
-
-                self.game["current_game"]["used"].append(card)
-                self.current_person_update()
-                self.title()
-
+                self.wild_card(card,bot)
             elif "+2_card" in card:
-                colour = card[:1]
-                if colour == self.colour_current:
-                    if self.reverse:
-                        player_affected = int(player)-1
-                        if player_affected < 0:
-                            player_affected = player_affected + (self.player_amount)
-                    else:
-                        player_affected = int(player)+1
-                        if player_affected >= self.player_amount:
-                            player_affected = player_affected-self.player_amount
-                    if player_affected > (self.player_amount)-1:
-                        player_affected = player_affected-self.player_amount
-                    self.game[str(player)]["cards"].remove(card)
-                    self.game[str(player)]["past_cards"].append(card)
-
-                    self.count_update(player)
-
-                    print("+2 has been given to {} by {}".format(player_affected, self.current_player))
-                    if debug:
-                        print(self.game[str(player_affected)]["cards"])
-                    self.give_certain_person_cards(player_affected, 2)
-                    if debug:
-                        print(self.game[str(player_affected)]["cards"])
-                    self.game["current_game"]["used"].append(card)
-                    self.current_person_update()
-                    self.title()
-                    return True
-                else:
-                    print("You have to use a {} card!".format(self.colour_current))
-                    return False
-            
+                self.plus2_card(card)
             elif "+4_card" in card:
-                if self.reverse:
-                    player_affected = int(player)-1
-                    if player_affected < 0:
-                        player_affected = player_affected + (self.player_amount)
-                else:
-                    #2
-                    player_affected = int(player)+1
-                    #3
-                    if player_affected >= self.player_amount:
-                        player_affected = player_affected-self.player_amount
-                print("+4 has been given to {} by {}".format(player_affected, self.current_player))
-
-                self.game[str(player)]["cards"].remove(card)
-                self.game[str(player)]["past_cards"].append(card)
-
-                self.count_update(player)
-                self.give_certain_person_cards(player_affected, 4)
-
-                self.game["current_game"]["used"].append(card)
-                self.title()
-                self.current_person_update()
-                return True
-
+                self.plus4_card(card)
             elif "reverse_card" in card:
-                print("Reverse card has been used by {}!".format(self.current_player))
-                self.game[str(player)]["cards"].remove(card)
-                self.game[str(player)]["past_cards"].append(card)
-
-                self.count_update(player)
-
-                self.game["current_game"]["used"].append(card)
-                if self.reverse:
-                    self.reverse = False
-                else:
-                    self.reverse = True
-
-                self.current_person_update()
-                self.title()
-                return True
-
+                self.reverse_card(card)
             elif "skip_turn" in card:
-                x = self.current_player
-                
-                self.game[str(player)]["cards"].remove(card)
-                self.game[str(player)]["past_cards"].append(card)
-                self.game["current_game"]["used"].append(card)
-                self.count_update(player)
-                if self.reverse:
-                    self.current_player -= 2
-                    if self.current_player < 0:
-                        self.current_player += (self.player_amount)
-                        pass
-                    else:
-                        pass
-                else:
-                    self.current_player+=2
-                    if self.current_player > (self.player_amount)-1:
-                        self.current_player -= (self.player_amount)
-                print("Skip card has been used by {}!".format(x))
-                self.title()
-                return True
-
-            
+                self.skip_turn(card)
             elif card[:1] == self.colour_current:
-                print("A card has been used by {}!".format(self.current_player))
-                self.game[str(player)]["cards"].remove(card)
-                self.game[str(player)]["past_cards"].append(card)
-
-                self.count_update(player)
-
-                self.game["current_game"]["used"].append(card)
-
-                self.current_person_update()
-                self.title()
-                
-                return True
-            
+                self.normal_card(card)
             elif card[:1] != self.colour_current:
                 print("That card is not the same colour as the current colour!")
                 return False
@@ -259,6 +140,119 @@ class UNO:
                 return False
         else:
             print("That card is not in your deck!")
+
+    def wild_card(self,card,bot):
+        if bot:
+            new_colour = random.choice(self.game["colour_codes"])
+        else:
+            new_colour = input("What colour would you like to change the game to (R,G,B,Y): ")
+        self.colour_current = new_colour
+        print("Colour has been changed to {}".format(new_colour))
+        self.game[str(self.current_player)]["cards"].remove(card)
+        self.game[str(self.current_player)]["past_cards"].append(card)
+        self.count_update(self.current_player)
+        self.game["current_game"]["used"].append(card)
+        self.current_person_update()
+        self.title()
+
+    def plus2_card(self,card):
+        colour = card[:1]
+        if colour == self.colour_current:
+            if self.reverse:
+                player_affected = int(self.current_player)-1
+                if player_affected < 0:
+                    player_affected = player_affected + (self.player_amount)
+            else:
+                player_affected = int(self.current_player)+1
+                if player_affected >= self.player_amount:
+                    player_affected = player_affected-self.player_amount
+            if player_affected > (self.player_amount)-1:
+                player_affected = player_affected-self.player_amount
+            self.game[str(self.current_player)]["cards"].remove(card)
+            self.game[str(self.current_player)]["past_cards"].append(card)
+
+            self.count_update(self.current_player)
+
+            print("+2 has been given to {} by {}".format(player_affected, self.current_player))
+            if debug:
+                print(self.game[str(player_affected)]["cards"])
+            self.give_certain_person_cards(player_affected, 2)
+            if debug:
+                print(self.game[str(player_affected)]["cards"])
+            self.game["current_game"]["used"].append(card)
+            self.current_person_update()
+            self.title()
+            return True
+        else:
+            print("You have to use a {} card!".format(self.colour_current))
+            return False
+
+    def plus4_card(self,card):
+        if self.reverse:
+            player_affected = int(self.current_player)-1
+            if player_affected < 0:
+                player_affected = player_affected + (self.player_amount)
+        else:
+            player_affected = int(self.current_player)+1
+            if player_affected >= self.player_amount:
+                player_affected = player_affected-self.player_amount
+        print("+4 has been given to {} by {}".format(player_affected, self.current_player))
+        self.game[str(self.current_player)]["cards"].remove(card)
+        self.game[str(self.current_player)]["past_cards"].append(card)
+        self.count_update(self.current_player)
+        self.give_certain_person_cards(player_affected, 4)
+        self.game["current_game"]["used"].append(card)
+        self.title()
+        self.current_person_update()
+        return True
+
+    def reverse_card(self, card):
+        print("Reverse card has been used by {}!".format(self.current_player))
+        self.game[str(self.current_player)]["cards"].remove(card)
+        self.game[str(self.current_player)]["past_cards"].append(card)
+        self.count_update(self.current_player)
+        self.game["current_game"]["used"].append(card)
+        if self.reverse:
+            self.reverse = False
+        else:
+            self.reverse = True
+
+        self.current_person_update()
+        self.title()
+        return True
+
+    def skip_turn(self,card):
+        x = self.current_player
+        self.game[str(self.current_player)]["cards"].remove(card)
+        self.game[str(self.current_player)]["past_cards"].append(card)
+        self.game["current_game"]["used"].append(card)
+        self.count_update(self.current_player)
+        if self.reverse:
+            self.current_player -= 2
+            if self.current_player < 0:
+                self.current_player += (self.player_amount)
+                pass
+            else:
+                pass
+        else:
+            self.current_player+=2
+            if self.current_player > (self.player_amount)-1:
+                self.current_player -= (self.player_amount)
+        print("Skip card has been used by {}!".format(x))
+        self.title()
+        return True
+
+            
+    def normal_card(self,card):
+        print("A card has been used by {}!".format(self.current_player))
+        self.game[str(self.current_player)]["cards"].remove(card)
+        self.game[str(self.current_player)]["past_cards"].append(card)
+        self.count_update(self.current_player)
+        self.game["current_game"]["used"].append(card)
+        self.current_person_update()
+        self.title()
+        
+        return True
 
     def bot_check(self):
         while True:
