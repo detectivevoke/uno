@@ -21,3 +21,4 @@ Update 1:
 
 Update 2:
   - Split the use_card() function, to make it more legible for decoding.
+  - Removed the give_cards() function, moved it into __init__().
