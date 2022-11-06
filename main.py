@@ -78,7 +78,6 @@ class UNO:
         try:
             c = self.game["current_game"]["used"][-1:][0]
         except Exception as e:
-            print(e)
             os.system("title Colour: {} - Player: {} - Cards used: {} - Last Card: {}".format(colour_full, self.current_player,self.game["current_game"]["cards_used"], "None"))
             return
         name, pos, colour = self.card_format(c)
