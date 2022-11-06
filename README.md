@@ -9,8 +9,7 @@ Currently uploaded:
 
 
  To do:
-  - Add a panel/console (possibly).
-  - Split the main.py into files that are easier to read.
+  - Make the whole game logged, to be able to read, and use as data. (possibly to be able to reload a game)
   - Make the bots optional, can use all players.
   - Website possibly? (would be basic, I cant  make JS and animations)
  
