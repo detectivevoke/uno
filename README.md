@@ -37,4 +37,4 @@ Update 4:
   - Added save_game() and self.game_logged, which saves the game if you exit the program (using "exit()" in console)
   - save_game() loads the game into a .json file, in games folder, to be able to be reloaded later (yet to be added)
   - Added deck() function into console, to show the deck (admin use only)
-  
+  - Bots have become smarter, moving the average from 400 cards per game down to 180.
