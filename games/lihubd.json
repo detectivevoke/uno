@@ -1,0 +1,369 @@
+[
+    {
+        "player_amount": 5,
+        "card_amount": 7,
+        "my_player": 2,
+        "1": {
+            "player": "2",
+            "card": "R7",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "6"
+        },
+        "2": {
+            "player": "3",
+            "card": "wild_card_0",
+            "deck": [
+                "B3",
+                "B2",
+                "G6",
+                "B5",
+                "G6"
+            ],
+            "deck_len": "6"
+        },
+        "3": {
+            "player": "4",
+            "card": "G5",
+            "deck": [
+                "B9",
+                "G1",
+                "B7",
+                "G3"
+            ],
+            "deck_len": "6"
+        },
+        "4": {
+            "player": "0",
+            "card": "G8",
+            "deck": [
+                "G3",
+                "Bskip_turn",
+                "G7",
+                "B+2_card",
+                "B9"
+            ],
+            "deck_len": "5"
+        },
+        "5": {
+            "player": "1",
+            "card": "+4_card_2",
+            "deck": [
+                "Greverse_card",
+                "R+2_card",
+                "Y2",
+                "G2"
+            ],
+            "deck_len": "6"
+        },
+        "6": {
+            "player": "2",
+            "card": "R7",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "10"
+        },
+        "7": {
+            "player": "3",
+            "card": "Y+2_card",
+            "deck": [
+                "B3",
+                "B2",
+                "G6",
+                "B5",
+                "G6"
+            ],
+            "deck_len": "5"
+        },
+        "8": {
+            "player": "4",
+            "card": "Y1",
+            "deck": [
+                "B9",
+                "G1",
+                "B7",
+                "G3"
+            ],
+            "deck_len": "7"
+        },
+        "9": {
+            "player": "1",
+            "card": "Yreverse_card",
+            "deck": [
+                "Greverse_card",
+                "R+2_card",
+                "Y2",
+                "G2"
+            ],
+            "deck_len": "5"
+        },
+        "10": {
+            "player": "4",
+            "card": "Y4",
+            "deck": [
+                "B9",
+                "G1",
+                "B7",
+                "G3"
+            ],
+            "deck_len": "6"
+        },
+        "11": {
+            "player": "3",
+            "card": "Y6",
+            "deck": [
+                "B3",
+                "B2",
+                "G6",
+                "B5",
+                "G6"
+            ],
+            "deck_len": "4"
+        },
+        "12": {
+            "player": "2",
+            "card": "Y2",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "9"
+        },
+        "13": {
+            "player": "1",
+            "card": "Y7",
+            "deck": [
+                "Greverse_card",
+                "R+2_card",
+                "Y2",
+                "G2"
+            ],
+            "deck_len": "4"
+        },
+        "14": {
+            "player": "0",
+            "card": "Y3",
+            "deck": [
+                "G3",
+                "Bskip_turn",
+                "G7",
+                "B+2_card",
+                "B9"
+            ],
+            "deck_len": "6"
+        },
+        "15": {
+            "player": "4",
+            "card": "Y4",
+            "deck": [
+                "B9",
+                "G1",
+                "B7",
+                "G3"
+            ],
+            "deck_len": "5"
+        },
+        "16": {
+            "player": "2",
+            "card": "Yreverse_card",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "8"
+        },
+        "17": {
+            "player": "1",
+            "card": "Y9",
+            "deck": [
+                "Greverse_card",
+                "R+2_card",
+                "Y2",
+                "G2"
+            ],
+            "deck_len": "3"
+        },
+        "18": {
+            "player": "1",
+            "card": "wild_card_2",
+            "deck": [
+                "Greverse_card",
+                "R+2_card",
+                "Y2",
+                "G2"
+            ],
+            "deck_len": "2"
+        },
+        "19": {
+            "player": "2",
+            "card": "R5",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "8"
+        },
+        "20": {
+            "player": "3",
+            "card": "R2",
+            "deck": [
+                "B3",
+                "B2",
+                "G6",
+                "B5",
+                "G6"
+            ],
+            "deck_len": "6"
+        },
+        "21": {
+            "player": "4",
+            "card": "R2",
+            "deck": [
+                "B9",
+                "G1",
+                "B7",
+                "G3"
+            ],
+            "deck_len": "6"
+        },
+        "22": {
+            "player": "0",
+            "card": "R8",
+            "deck": [
+                "G3",
+                "Bskip_turn",
+                "G7",
+                "B+2_card",
+                "B9"
+            ],
+            "deck_len": "7"
+        },
+        "23": {
+            "player": "2",
+            "card": "R7",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "7"
+        },
+        "24": {
+            "player": "3",
+            "card": "R6",
+            "deck": [
+                "B3",
+                "B2",
+                "G6",
+                "B5",
+                "G6"
+            ],
+            "deck_len": "5"
+        },
+        "25": {
+            "player": "4",
+            "card": "Rreverse_card",
+            "deck": [
+                "B9",
+                "G1",
+                "B7",
+                "G3"
+            ],
+            "deck_len": "5"
+        },
+        "26": {
+            "player": "2",
+            "card": "R6",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "6"
+        },
+        "28": {
+            "player": "3",
+            "card": "wild_card_1",
+            "deck": [
+                "B3",
+                "B2",
+                "G6",
+                "B5",
+                "G6"
+            ],
+            "deck_len": "5"
+        },
+        "29": {
+            "player": "2",
+            "card": "B4",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "5"
+        },
+        "30": {
+            "player": "1",
+            "card": "B5",
+            "deck": [
+                "Greverse_card",
+                "R+2_card",
+                "Y2",
+                "G2"
+            ],
+            "deck_len": "3"
+        },
+        "31": {
+            "player": "0",
+            "card": "B6",
+            "deck": [
+                "G3",
+                "Bskip_turn",
+                "G7",
+                "B+2_card",
+                "B9"
+            ],
+            "deck_len": "5"
+        },
+        "33": {
+            "player": "2",
+            "card": "B+2_card",
+            "deck": [
+                "G4",
+                "G4",
+                "B1",
+                "B7"
+            ],
+            "deck_len": "4"
+        },
+        "34": {
+            "player": "1",
+            "card": "Breverse_card",
+            "deck": [
+                "Greverse_card",
+                "R+2_card",
+                "Y2",
+                "G2"
+            ],
+            "deck_len": "4"
+        }
+    }
+]

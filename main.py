@@ -29,6 +29,9 @@ class UNO:
         #{["player":"0","card":"R7","deck":[],"cards_used":[],"cards_used_len":0, "current_colour":"Red"]}
         for player in range(self.player_amount):
             self.game[str(player)] = {"cards": [],"past_cards": [],"cards_used": 0,}
+        
+        self.game_logged["player_amount"] = self.player_amount
+        self.game_logged["card_amount"] = self.card_amount
 
         self.game["colour_codes"] = ["B","G","R","Y"]
         self.game["colours"] = {"B": 34, "G": 32, "R": 31, "Y": 33}
@@ -71,8 +74,6 @@ class UNO:
         with open("games/{}.json".format(name), "w") as outfile:
             outfile.write(json_object)
 
-
-
     def title(self):
         colour_full = self.game["colours_full"][self.colour_current]
         try:
@@ -92,14 +93,13 @@ class UNO:
         self.game["current_game"]["cards_used"] += 1
         return True
 
-
     def update(self):
         self.game_logged[self.game["current_game"]["cards_used"]] = {}
         self.game_logged[self.game["current_game"]["cards_used"]]["player"] = str(self.current_player)
         try:
             self.game_logged[self.game["current_game"]["cards_used"]]["card"] = self.game[str(self.current_player)]["past_cards"][-1]
         except:
-            print(self.game[str(self.current_player)]["past_cards"])
+            self.game_logged[self.game["current_game"]["cards_used"]]["card"] = "None"
         self.game_logged[self.game["current_game"]["cards_used"]]["deck"] = self.game[str(self.current_player)]["cards"]
         self.game_logged[self.game["current_game"]["cards_used"]]["deck_len"] = str(len(self.game[str(self.current_player)]["cards"]))
         #self.game_logged[self.game["current_game"]["cards_used"]]["cards_used"] = self.game[str(self.current_player)]["past_cards"]
@@ -133,6 +133,9 @@ class UNO:
     def give_admin_card(self, player, card):
         self.game[str(player)]["cards"].append(str(card))
         return True
+
+    def get_deck(self, player):
+        return self.game[str(player)]["cards"]
 
     def give_certain_person_cards(self, player,amount):
         try:
@@ -173,7 +176,6 @@ class UNO:
             elif card[:1] == self.colour_current:
                 self.normal_card(card)
             elif card[:1] != self.colour_current:
-                
                 print("That card is not the same colour as the current colour!")
                 return False
             else:
@@ -224,7 +226,6 @@ class UNO:
                 player_affected = player_affected-self.player_amount
             self.game[str(self.current_player)]["cards"].remove(card)
             self.game[str(self.current_player)]["past_cards"].append(card)
-
             
             if self.log:
                 print("+2 has been given to Player {} by {}".format(player_affected, self.current_player))
@@ -380,6 +381,7 @@ class UNO:
     
     def run(self):
         self.my_player = random.randint(0,self.player_amount-1)
+        self.game_logged["my_player"] = self.my_player
         print("You are Player {}!".format(self.my_player))
         print("\n")
 
@@ -417,6 +419,10 @@ class UNO:
                     elif "exit()" in c:
                         self.save_game()
                         return False
+                    elif "deck(" in c:
+                        find_deck = c.strip("deck(").strip(")")
+                        r = self.get_deck(find_deck)
+                        print(find_deck+"'s deck: {}".format(r))
                     else:
                         c = int(c)-1
                         try:
