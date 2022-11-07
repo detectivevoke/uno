@@ -11,6 +11,7 @@ Currently uploaded:
  To do:
   - Make the whole game logged, to be able to read, and use as data. (possibly to be able to reload a game)
   - Add more data into save_game() function, so it is able to be fully reloaded, without assuming anything.
+  - Add load_game() function, to be able to reload the games that were saved.
   - Make the bots optional, can use all players.
   - Website possibly? (would be basic, I cant  make JS and animations)
  
