@@ -10,6 +10,7 @@ Currently uploaded:
 
  To do:
   - Make the whole game logged, to be able to read, and use as data. (possibly to be able to reload a game)
+  - Add more data into save_game() function, so it is able to be fully reloaded, without assuming anything.
   - Make the bots optional, can use all players.
   - Website possibly? (would be basic, I cant  make JS and animations)
  
@@ -30,3 +31,8 @@ Update 3:
   - The sleep time has been randomised by 0.5 seconds each side of the set time
   - Added admin options, to give cards, Usage: give(card_name) 
   - Made it so it skips player, when they don't have the correct card (like in the actual UNO game, I didn't know the rules)
+
+Update 4:
+  - Added save_game() and self.game_logged, which saves the game if you exit the program (using "exit()" in console)
+  - save_game() loads the game into a .json file, in games folder, to be able to be reloaded later (yet to be added)
+  
