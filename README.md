@@ -6,7 +6,8 @@ Currently uploaded:
   - UNO base
   - Smart Bots
   - More Controlled Console
-
+  - Game Saving
+  - Game Loading
 
  To do:
   - Make the bots optional, can use all players.
