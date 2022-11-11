@@ -1,0 +1,71 @@
+[
+    {
+        "player_amount": "5",
+        "card_amount": "7",
+        "my_player": "0",
+        "cards_used": "[]",
+        "cards_used_len": "0",
+        "players": {
+            "0": {
+                "deck": [
+                    "B9",
+                    "Y6",
+                    "B1",
+                    "Y5",
+                    "G2",
+                    "G+2_card",
+                    "+4_card_0"
+                ],
+                "used_cards": []
+            },
+            "1": {
+                "deck": [
+                    "R7",
+                    "Y1",
+                    "B9",
+                    "Y7",
+                    "B4",
+                    "G6",
+                    "G4"
+                ],
+                "used_cards": []
+            },
+            "2": {
+                "deck": [
+                    "Y8",
+                    "G2",
+                    "R4",
+                    "Y3",
+                    "Yreverse_card",
+                    "Rreverse_card",
+                    "Bskip_turn"
+                ],
+                "used_cards": []
+            },
+            "3": {
+                "deck": [
+                    "+4_card_1",
+                    "R5",
+                    "B3",
+                    "+4_card_3",
+                    "Y1",
+                    "Y+2_card",
+                    "Y9"
+                ],
+                "used_cards": []
+            },
+            "4": {
+                "deck": [
+                    "G9",
+                    "Greverse_card",
+                    "R3",
+                    "Gskip_turn",
+                    "wild_card_2",
+                    "G1",
+                    "R9"
+                ],
+                "used_cards": []
+            }
+        }
+    }
+]

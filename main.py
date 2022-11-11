@@ -24,9 +24,7 @@ class UNO:
         self.current_player = 0
         self.card_amount = 7 if card_amount == None else card_amount
         self.game_logged = {}
-        #self.game["current_game"]["cards_used"]
         # IMAGES: https://github.com/VTiS15/UNOBot/tree/main/images / https://github.com/proheap/UNO/tree/master/client/assets
-        #{["player":"0","card":"R7","deck":[],"cards_used":[],"cards_used_len":0, "current_colour":"Red"]}
         for player in range(self.player_amount):
             self.game[str(player)] = {"cards": [],"past_cards": [],"cards_used": 0,}
         
@@ -65,13 +63,40 @@ class UNO:
         x = int(random.randrange((self.sleep_time-0.5)*100,(self.sleep_time+0.5)*100))/100
         return x
 
+    def load_game(self):
+        game_loaded = json.loads(open('games/game.json',"r").read())
+        self.player_amount = int(game_loaded[0]["player_amount"])
+        self.card_amount = game_loaded[0]["card_amount"]
+        self.my_player = game_loaded[0]["my_player"]
+        print(game_loaded[0]["cards_used"])
+        self.game["current_game"]["used"] = list(eval(game_loaded[0]["cards_used"]))
+
+        for player in range(self.player_amount):
+            self.game[str(player)]["cards"] = game_loaded[0]["players"][str(player)]["deck"]
+            self.game[str(player)]["past_cards"] = game_loaded[0]["players"][str(player)]["used_cards"]
+            self.game[str(player)]["cards_used"] = int(len(game_loaded[0]["players"][str(player)]["used_cards"]))
+       
+       
+
     def save_game(self):
-        name = "".join(random.choice(string.ascii_lowercase) for i in range(random.randint(4,7)))
-        open('games/{}.json'.format(name),"a")
+        self.sv_gme = {
+            "player_amount": "{}".format(self.player_amount),
+            "card_amount": "{}".format(self.card_amount),
+            "my_player": "{}".format(self.my_player),
+            "cards_used": "{}".format(self.game["current_game"]["used"]),
+            "cards_used_len": "{}".format(self.game["current_game"]["cards_used"]),}
+        self.sv_gme["players"] = {}
+        for player in range(self.player_amount):
+            deck = self.game[str(player)]["cards"]
+            used_cards = self.game[str(player)]["past_cards"]
+            self.sv_gme["players"][str(player)] = {}
+            self.sv_gme["players"][str(player)]["deck"] = deck
+            self.sv_gme["players"][str(player)]["used_cards"] = used_cards
+        open('games/game.json',"a")
         data = []
-        data.append(self.game_logged)
+        data.append(self.sv_gme)
         json_object = json.dumps(data, indent=4)
-        with open("games/{}.json".format(name), "w") as outfile:
+        with open("games/game.json", "w") as outfile:
             outfile.write(json_object)
 
     def title(self):
@@ -100,8 +125,8 @@ class UNO:
             self.game_logged[self.game["current_game"]["cards_used"]]["card"] = self.game[str(self.current_player)]["past_cards"][-1]
         except:
             self.game_logged[self.game["current_game"]["cards_used"]]["card"] = "None"
-        self.game_logged[self.game["current_game"]["cards_used"]]["deck"] = self.game[str(self.current_player)]["cards"]
-        self.game_logged[self.game["current_game"]["cards_used"]]["deck_len"] = str(len(self.game[str(self.current_player)]["cards"]))
+        #self.game_logged[self.game["current_game"]["cards_used"]]["deck"] = self.game[str(self.current_player)]["cards"]
+        #self.game_logged[self.game["current_game"]["cards_used"]]["deck_len"] = str(len(self.game[str(self.current_player)]["cards"]))
         #self.game_logged[self.game["current_game"]["cards_used"]]["cards_used"] = self.game[str(self.current_player)]["past_cards"]
         #self.game_logged[self.game["current_game"]["cards_used"]]["cards_used_len"] = str(len(self.game[str(self.current_player)]["past_cards"]))
         self.count_update(self.current_player)
@@ -197,10 +222,6 @@ class UNO:
             x = True
             while x:
                 new_colour = input("What colour would you like to change the game to (R,G,B,Y): ")
-                if new_colour != self.colour_current:
-                    x = False
-                else:
-                    print("Please select a colour, that isnt the current colour!")
 
         self.colour_current = new_colour
         if self.log:
@@ -322,8 +343,9 @@ class UNO:
             
     def normal_card(self,card):
         ## add what card has been used, formatted
+        c,pos,colour = self.card_format(card)
         if self.log:
-            print("A card has been used by {}!".format(self.current_player))
+            print("{} {} has been used by {}!".format(colour.capitalize(),c,self.current_player))
         self.game[str(self.current_player)]["cards"].remove(card)
         self.game[str(self.current_player)]["past_cards"].append(card)
         self.game["current_game"]["used"].append(card)
@@ -380,11 +402,21 @@ class UNO:
         return card, pos_of_card, colour_of_card
     
     def run(self):
-        self.my_player = random.randint(0,self.player_amount-1)
-        self.game_logged["my_player"] = self.my_player
-        print("You are Player {}!".format(self.my_player))
-        print("\n")
+        load = input("New game? (y/n): ")
+        if load.lower() == "n":
+            self.load_game()
+        elif load.lower() == "y":
 
+            self.my_player = random.randint(0,self.player_amount-1)
+            self.game_logged["my_player"] = self.my_player
+            print("You are Player {}!".format(self.my_player))
+            print("\n")
+        else:
+            print("You didnt select an option, creating new game!")
+            self.my_player = random.randint(0,self.player_amount-1)
+            self.game_logged["my_player"] = self.my_player
+            print("You are Player {}!".format(self.my_player))
+            print("\n")
         while True:
             if self.sleep:
                 time.sleep(self.time_sleep())
@@ -395,8 +427,7 @@ class UNO:
                 print("{} has won!".format(self.current_player))
                 self.save_game()
                 break
-
-            if self.current_player == self.my_player:
+            if int(self.current_player) == int(self.my_player):
                 if self.sleep:
                     time.sleep(self.time_sleep())
                 for card in self.game[str(self.current_player)]["cards"]:
