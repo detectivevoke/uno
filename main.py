@@ -47,6 +47,7 @@ class UNO:
             for colour in self.game["colour_codes"]:
                 for card in self.game["cards"]:
                     self.deck.append(str(colour)+str(card))
+
         for card in self.game["special_cards"]:
             self.deck.append(card)
         
@@ -57,8 +58,6 @@ class UNO:
                 self.game[str(player)]["cards"].append(str(card_to_be_given))
                 self.deck.remove(card_to_be_given)
 
-    
-
     def time_sleep(self):
         x = int(random.randrange((self.sleep_time-0.5)*100,(self.sleep_time+0.5)*100))/100
         return x
@@ -68,7 +67,6 @@ class UNO:
         self.player_amount = int(game_loaded[0]["player_amount"])
         self.card_amount = game_loaded[0]["card_amount"]
         self.my_player = game_loaded[0]["my_player"]
-        print(game_loaded[0]["cards_used"])
         self.game["current_game"]["used"] = list(eval(game_loaded[0]["cards_used"]))
 
         for player in range(self.player_amount):
@@ -76,8 +74,6 @@ class UNO:
             self.game[str(player)]["past_cards"] = game_loaded[0]["players"][str(player)]["used_cards"]
             self.game[str(player)]["cards_used"] = int(len(game_loaded[0]["players"][str(player)]["used_cards"]))
        
-       
-
     def save_game(self):
         self.sv_gme = {
             "player_amount": "{}".format(self.player_amount),
@@ -340,7 +336,6 @@ class UNO:
         self.title()
         return True
 
-            
     def normal_card(self,card):
         ## add what card has been used, formatted
         c,pos,colour = self.card_format(card)
@@ -367,9 +362,7 @@ class UNO:
             self.current_person_update()
             pass
             
-
     def card_format(self,card):
-
         try:
             colour_of_card = self.game["colours"][card[:1]]
         except:
