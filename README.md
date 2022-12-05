@@ -41,3 +41,6 @@ Update 5:
   - Added load_game() function, which loads the game from game.json, which can be saved by using exit() in console.
   - Added the name of the card used, when it is a basic card ("A card has been used by 0!" to "R7 has been used by 0!").
   - Changed the data being saved to important data only, making it faster.
+
+
+Saved images: https://github.com/VTiS15/UNOBot/tree/main/images / https://github.com/proheap/UNO/tree/master/client/assets
