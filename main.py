@@ -13,6 +13,7 @@ debug = False
 class UNO:
 
     def __init__(self, card_amount=None):
+        ##Loading config, setting variables
         self.config = json.loads(open("config.json","r").read())
         self.sleep = self.config["sleep"]
         self.sleep_time = self.config["sleep_time"]
@@ -24,13 +25,14 @@ class UNO:
         self.current_player = 0
         self.card_amount = 7 if card_amount == None else card_amount
         self.game_logged = {}
-        # IMAGES: https://github.com/VTiS15/UNOBot/tree/main/images / https://github.com/proheap/UNO/tree/master/client/assets
+        
+        ## Create player object
         for player in range(self.player_amount):
             self.game[str(player)] = {"cards": [],"past_cards": [],"cards_used": 0,}
         
         self.game_logged["player_amount"] = self.player_amount
         self.game_logged["card_amount"] = self.card_amount
-
+        ## Setting colours for formatting the cards for console
         self.game["colour_codes"] = ["B","G","R","Y"]
         self.game["colours"] = {"B": 34, "G": 32, "R": 31, "Y": 33}
         self.game["colours_full"] = {"B":"Blue","G":"Green","R":"Red","Y":"Yellow"}
@@ -38,11 +40,11 @@ class UNO:
         self.game["special_cards"] = []
         self.game["current_game"] = {"cards_used": 0,"used": []}
         self.colour_current = random.choice(self.game["colour_codes"])
-
+        ## Creating special cards
         for i in range(4):
             self.game["special_cards"].append("wild_card_{}".format(i))
             self.game["special_cards"].append("+4_card_{}".format(i))
-
+        ## Creating all cards in the deck, to then be distributed
         for i in range(2):
             for colour in self.game["colour_codes"]:
                 for card in self.game["cards"]:
@@ -52,16 +54,22 @@ class UNO:
             self.deck.append(card)
         
         self.title()
+
+        ## Distributes the cards out to the amount of players
         for player in range(self.player_amount):
             for i in range(self.card_amount):
                 card_to_be_given = random.choice(self.deck)
                 self.game[str(player)]["cards"].append(str(card_to_be_given))
                 self.deck.remove(card_to_be_given)
 
+    ## Gets a random sleep time, within a certain range of the sleep time set in config.json
     def time_sleep(self):
         x = int(random.randrange((self.sleep_time-0.5)*100,(self.sleep_time+0.5)*100))/100
         return x
 
+
+    ## Loads the game from game.json, giving the ability to save the game, and play it later
+    ## It loads all the data, then replaces all the data in self.game with the newly imported data
     def load_game(self):
         game_loaded = json.loads(open('games/game.json',"r").read())
         self.player_amount = int(game_loaded[0]["player_amount"])
@@ -74,6 +82,7 @@ class UNO:
             self.game[str(player)]["past_cards"] = game_loaded[0]["players"][str(player)]["used_cards"]
             self.game[str(player)]["cards_used"] = int(len(game_loaded[0]["players"][str(player)]["used_cards"]))
        
+    ## Saves the game data into game.json, to be loaded later
     def save_game(self):
         self.sv_gme = {
             "player_amount": "{}".format(self.player_amount),
@@ -95,6 +104,9 @@ class UNO:
         with open("games/game.json", "w") as outfile:
             outfile.write(json_object)
 
+
+    ## Sets the title of the console, using os
+    ## Gets the colour of the past card, and shows how many cards have been used, and what the previous card was
     def title(self):
         colour_full = self.game["colours_full"][self.colour_current]
         try:
@@ -109,11 +121,15 @@ class UNO:
         else:
             os.system("title Colour: {} - Player: {} - Cards used: {} - Last Card: {}".format(colour_full, self.current_player,self.game["current_game"]["cards_used"], "{} {}".format(colour,name)))
     
+
+    ## Updates the cards_used count, for the title
     def count_update(self,player):
         self.game[str(player)]["cards_used"] += 1
         self.game["current_game"]["cards_used"] += 1
         return True
 
+
+    ## Updates the player's used cards, and the current games cards
     def update(self):
         self.game_logged[self.game["current_game"]["cards_used"]] = {}
         self.game_logged[self.game["current_game"]["cards_used"]]["player"] = str(self.current_player)
@@ -128,6 +144,8 @@ class UNO:
         self.count_update(self.current_player)
         self.current_person_update()
 
+    ## Changes the current person, and is able to check if the game is playing if reverse
+    ## If the next player number becomes bigger than the player amount, it will take away the player amount, to make the player amount 0
     def current_person_update(self):
         if self.reverse:
             self.current_player -= 1
@@ -151,13 +169,16 @@ class UNO:
                 pass
             return True   
 
+    ## Gives the player a certain card, bypassing the deck
     def give_admin_card(self, player, card):
         self.game[str(player)]["cards"].append(str(card))
         return True
 
+    ## Returns the deck of the selected player
     def get_deck(self, player):
         return self.game[str(player)]["cards"]
 
+    ## Gives the selected player a certain amount of cards from the deck
     def give_certain_person_cards(self, player,amount):
         try:
             if len(self.deck) > 0:
@@ -181,6 +202,7 @@ class UNO:
         except:
             return False
 
+    ## Uses the card, central function to be able to use cards, without clogging the run function
     def use_card(self,player, card, bot=True):
         deck = self.game[str(player)]["cards"]
         if card in deck:
@@ -205,6 +227,7 @@ class UNO:
         else:
             print("That card is not in your deck!")
 
+    ## Checks if the user is a bot, if it isnt it asks for the colour, and then changes it, then updates the current player
     def wild_card(self,card,bot):
         if bot:
             x = True
@@ -214,10 +237,16 @@ class UNO:
                     x = False
                 else:
                     pass
+        elif self.current_player == self.my_player:
+            new_colour = input("What colour would you like to change the game to (R,G,B,Y): ")
         else:
             x = True
             while x:
-                new_colour = input("What colour would you like to change the game to (R,G,B,Y): ")
+                new_colour = random.choice(self.game["colour_codes"])
+                if new_colour != self.colour_current:
+                    x = False
+                else:
+                    pass
 
         self.colour_current = new_colour
         if self.log:
@@ -228,6 +257,7 @@ class UNO:
         self.update()
         self.title()
 
+    ## Finds which player the 2 cards have to be given to, and then gives them two cards from the deck and then updates the current player
     def plus2_card(self,card):
         colour = card[:1]
         if colour == self.colour_current:
@@ -259,6 +289,7 @@ class UNO:
             print("You have to use a {} card!".format(self.colour_current))
             return False
 
+    ## Finds which player to give the 4 cards to, adds the cards, then asks the current player what colour to change the colour to, then updates the current player
     def plus4_card(self,card):
         if self.reverse:
             player_affected = int(self.current_player)-1
@@ -299,6 +330,8 @@ class UNO:
         self.title()
         return True
 
+
+    ## Sets the game into reverse, and updates current player
     def reverse_card(self, card):
         if self.log:
             print("Reverse card has been used by {}!".format(self.current_player))
@@ -314,6 +347,7 @@ class UNO:
         self.title()
         return True
 
+    ## Finds which player is next, and then skips their turn, by using "2" instead of "1"
     def skip_turn(self,card):
         x = self.current_player
         self.game[str(self.current_player)]["cards"].remove(card)
@@ -336,8 +370,8 @@ class UNO:
         self.title()
         return True
 
+    ## Removes the card from the players deck, and updates the current player
     def normal_card(self,card):
-        ## add what card has been used, formatted
         c,pos,colour = self.card_format(card)
         if self.log:
             print("{} {} has been used by {}!".format(colour.capitalize(),c,self.current_player))
@@ -348,6 +382,7 @@ class UNO:
         self.title()
         return True
 
+    ## Randomly picks a card in the bot's deck, as it isnt the current player's turn
     def bot_check(self):
         while True:
             if self.sleep:
@@ -361,7 +396,8 @@ class UNO:
             self.give_certain_person_cards(str(self.current_player),1)
             self.current_person_update()
             pass
-            
+    
+    ## Formats the card so it is legible in the title
     def card_format(self,card):
         try:
             colour_of_card = self.game["colours"][card[:1]]
@@ -394,6 +430,7 @@ class UNO:
             return "Wild Card", pos_of_card, colour_of_card 
         return card, pos_of_card, colour_of_card
     
+    ## Main function for running the game
     def run(self):
         load = input("New game? (y/n): ")
         if load.lower() == "n":
@@ -452,7 +489,7 @@ class UNO:
                         try:
                             card = self.game[str(self.current_player)]["cards"][c]
                             self.use_card(str(self.current_player),card, bot=False)
-                        except:
+                        except Exception:
                             self.give_certain_person_cards(str(self.current_player),1)
                             self.current_person_update()
                 else:
@@ -463,7 +500,8 @@ class UNO:
             else:
                 card = self.bot_check()
                 self.use_card(str(self.current_player),card)
-                
+    
+    ## Main function to run the game, but uses bots only, no player input
     def bot_run(self):
         self.my_player = self.player_amount +1
         while True:
@@ -474,6 +512,7 @@ class UNO:
             card = self.bot_check()
             self.use_card(str(self.current_player),card,bot=True)
 
+## Checks if to run via bots or not
 if json.loads(open("config.json","r").read())["bot_game"]:
     UNO().bot_run()
 else:
